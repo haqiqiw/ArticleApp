@@ -33,7 +33,7 @@ export const fetcingDataArticle = (keyword, newPage, sort, callback) => {
     dispatch(fetchingData());
     const params = { 
       'api-key': API_KEY,
-      'page': page,
+      'page': newPage,
       'sort': sort === 'new' ? 'newest' : 'oldest'
     };
     if (keyword !== '') { params['q'] = keyword }

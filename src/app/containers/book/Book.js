@@ -73,9 +73,11 @@ class Book extends Component {
   renderFooter = () => {
     const { isRefreshing } = this.state;
     const { book } = this.props;
-    if (!book.isLoading && isRefreshing) return null;
-
-    return ( <Loading /> );
+    if (book.isLoading && !isRefreshing) {
+      return ( <Loading /> );
+    } else {
+      return null;
+    }
   };
 
   render() {
