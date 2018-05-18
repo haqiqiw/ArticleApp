@@ -1,58 +1,66 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
+import { YellowBox } from 'react-native';
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+  createStore,
+  applyMiddleware,
+  combineReducers
+} from 'redux';
+import {
+  createReduxBoundAddListener,
+  createReactNavigationReduxMiddleware,
+  createNavigationReducer
+} from 'react-navigation-redux-helpers';
+import thunk from 'redux-thunk';
+import { Provider, connect } from 'react-redux';
+import AppNavigator from './src/app';
+import articleReducer from './src/app/reducers/article';
+import bookReducer from './src/app/reducers/book';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+
+const navReducer = createNavigationReducer(AppNavigator);
+const appReducer = combineReducers({
+  nav: navReducer,
+  article: articleReducer,
+  book: bookReducer
 });
 
-type Props = {};
-export default class App extends Component<Props> {
+const middleware = createReactNavigationReduxMiddleware(
+  "root",
+  state => state.nav,
+);
+const addListener = createReduxBoundAddListener("root");
+
+class App extends Component {
   render() {
+    const { dispatch, nav } = this.props;
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <AppNavigator navigation={{
+        dispatch: dispatch,
+        state: nav,
+        addListener,
+      }} />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+const mapStateToProps = (state) => ({
+  nav: state.nav
 });
+
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+const store = createStore(
+  appReducer,
+  applyMiddleware(middleware, thunk),
+);
+
+export default class Root extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <AppWithNavigationState />
+      </Provider>
+    );
+  }
+}

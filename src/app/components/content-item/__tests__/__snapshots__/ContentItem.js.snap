@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentItem Component should apply subtitle style in the contentitem 1`] = `
+<Styled(ListItem)
+  button={true}
+  onPress={[Function]}
+>
+  <Styled(Body)>
+    <Styled(Text) />
+    <Styled(Text)
+      note={true}
+      style={
+        Object {
+          "fontSize": 16,
+        }
+      }
+    />
+  </Styled(Body)>
+</Styled(ListItem)>
+`;
+
+exports[`ContentItem Component should apply title style in the contentitem 1`] = `
+<Styled(ListItem)
+  button={true}
+  onPress={[Function]}
+>
+  <Styled(Body)>
+    <Styled(Text)
+      style={
+        Object {
+          "fontSize": 18,
+        }
+      }
+    />
+    <Styled(Text)
+      note={true}
+    />
+  </Styled(Body)>
+</Styled(ListItem)>
+`;
+
+exports[`ContentItem Component should pass subtitle props should still work 1`] = `
+<Styled(ListItem)
+  button={true}
+  onPress={[Function]}
+>
+  <Styled(Body)>
+    <Styled(Text) />
+    <Styled(Text)
+      note={true}
+    >
+      Subtitle Content
+    </Styled(Text)>
+  </Styled(Body)>
+</Styled(ListItem)>
+`;
+
+exports[`ContentItem Component should pass title props should still work 1`] = `
+<Styled(ListItem)
+  button={true}
+  onPress={[Function]}
+>
+  <Styled(Body)>
+    <Styled(Text)>
+      Title Content
+    </Styled(Text)>
+    <Styled(Text)
+      note={true}
+    />
+  </Styled(Body)>
+</Styled(ListItem)>
+`;
+
+exports[`ContentItem Component should render without issue 1`] = `
+<Styled(ListItem)
+  button={true}
+  onPress={[Function]}
+>
+  <Styled(Body)>
+    <Styled(Text) />
+    <Styled(Text)
+      note={true}
+    />
+  </Styled(Body)>
+</Styled(ListItem)>
+`;

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading Component should apply container style in the loading 1`] = `
+<Styled(Content)
+  contentContainerStyle={
+    Object {
+      "backgroundColor": "red",
+    }
+  }
+>
+  <Styled(Spinner)
+    color="#324191"
+  />
+</Styled(Content)>
+`;
+
+exports[`Loading Component should pass color props should still work 1`] = `
+<Styled(Content)>
+  <Styled(Spinner)
+    color="grey"
+  />
+</Styled(Content)>
+`;
+
+exports[`Loading Component should render without issue 1`] = `
+<Styled(Content)>
+  <Styled(Spinner)
+    color="#324191"
+  />
+</Styled(Content)>
+`;
