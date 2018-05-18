@@ -25,7 +25,10 @@ class Book extends Component {
   componentWillMount() {
     const { list } = this.state;
     const { fetcingDataBook } = this.props;
-    fetcingDataBook(list, 0);
+    this.setState({ isRefreshing: true });
+    fetcingDataBook(list, 0, () => {
+      this.setState({ isRefreshing: false });
+    });
   }
 
   // fetch data article when user pull refresh
@@ -50,8 +53,10 @@ class Book extends Component {
   // fetch data when user change sort segment
   onPressSegment = (segment) => {
     const { fetcingDataBook } = this.props;
-    this.setState({ list: segment });
-    fetcingDataBook(segment, 0);
+    this.setState({ isRefreshing: true, list: segment });
+    fetcingDataBook(segment, 0, () => {
+      this.setState({ isRefreshing: false });
+    });
   }
 
   renderItem = (item) => {
@@ -66,8 +71,9 @@ class Book extends Component {
   }
 
   renderFooter = () => {
+    const { isRefreshing } = this.state;
     const { book } = this.props;
-    if (!book.isLoading) return null;
+    if (!book.isLoading && isRefreshing) return null;
 
     return ( <Loading /> );
   };

@@ -27,8 +27,9 @@ export const fetchingDataFailure = (data) => {
   }
 }
 
-export const fetcingDataArticle = (keyword, page, sort, callback) => {
-  return (dispatch) => {
+export const fetcingDataArticle = (keyword, newPage, sort, callback) => {
+  return (dispatch, getState) => {
+    const { items, page } = getState().article;
     dispatch(fetchingData());
     const params = { 
       'api-key': API_KEY,
@@ -39,10 +40,10 @@ export const fetcingDataArticle = (keyword, page, sort, callback) => {
     axios.get(`${ARTICLE_SEARCH}${qs.stringify(params)}`)
     .then((result) => {
       if (result.data.status === 'OK') {
-        const items = result.data.response.docs;
+        const newItems = result.data.response.docs;
         dispatch(fetchingDataSuccess({
-          items: items,
-          page: page
+          items: newItems.length > 0 ? newItems : items,
+          page: newItems.length > 0 ? newPage : page
         }));
       }
       if (callback) { callback(); }

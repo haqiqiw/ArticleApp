@@ -31,7 +31,10 @@ class Article extends Component {
   componentWillMount() {
     const { keyword, sort } = this.state;
     const { fetcingDataArticle } = this.props;
-    fetcingDataArticle(keyword, 0, sort);
+    this.setState({ isRefreshing: true });
+    fetcingDataArticle(keyword, 0, sort, () => {
+      this.setState({ isRefreshing: false });
+    });
   }
 
   // fetch data article when user pull refresh
@@ -58,7 +61,10 @@ class Article extends Component {
     const { sort } = this.state;
     const { fetcingDataArticle } = this.props;
     if (keyword !== '') {
-      fetcingDataArticle(keyword, 0, sort);
+      this.setState({ isRefreshing: true });
+      fetcingDataArticle(keyword, 0, sort, () => {
+        this.setState({ isRefreshing: false });
+      });
     }
   }
 
@@ -66,16 +72,20 @@ class Article extends Component {
   onPressSegment = (segment) => {
     const { keyword } = this.state;
     const { fetcingDataArticle } = this.props;
-    this.setState({ sort: segment });
-    fetcingDataArticle(keyword, 0, segment);
+    this.setState({ isRefreshing: true, sort: segment });
+    fetcingDataArticle(keyword, 0, segment, () => {
+      this.setState({ isRefreshing: false });
+    });
   }
 
   // fetch data when user clearing keyword search
   onClearSearch = () => {
     const { sort } = this.state;
     const { fetcingDataArticle } = this.props;
-    this.setState({ keyword: '' });
-    fetcingDataArticle('', 0, sort);
+    this.setState({ isRefreshing: true, keyword: '' });
+    fetcingDataArticle('', 0, sort, () => {
+      this.setState({ isRefreshing: false });
+    });
   }
 
   // go to detail article when user click on item
@@ -103,8 +113,9 @@ class Article extends Component {
   }
 
   renderFooter = () => {
+    const { isRefreshing } = this.state;
     const { article } = this.props;
-    if (!article.isLoading) return null;
+    if (!article.isLoading && isRefreshing) return null;
 
     return ( <Loading /> );
   };
