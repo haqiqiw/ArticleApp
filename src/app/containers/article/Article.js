@@ -52,9 +52,6 @@ class Article extends Component {
     const { keyword, sort } = this.state;
     const { article, fetcingDataArticle } = this.props;
     if (!article.isLoading) {
-      console.log(article.page)
-      const newPage = article.page + 1;
-      console.log(newPage)
       fetcingDataArticle(keyword, article.page + 1, sort);
     }
   };
